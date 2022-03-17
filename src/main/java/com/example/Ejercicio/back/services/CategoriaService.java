@@ -33,8 +33,12 @@ public class CategoriaService {
         return categoriaRepo.save(categoria);
     }
 
-    public Categoria updateCategoria (Categoria categoria) {
-        return categoriaRepo.save(categoria);
+    public Categoria updateCategoria (Categoria categoria, int id) {
+        if(categoria.getId() == id) {
+            return categoriaRepo.save(categoria);
+        } else {
+            return null;
+        }
     }
 
     public void deleteCategoriaById(int id) {

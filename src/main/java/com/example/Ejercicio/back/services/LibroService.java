@@ -34,16 +34,20 @@ public class LibroService {
             return libroRepo.findAll();
         }
 
-        public Libro updateLibro (Libro libro) {
-            return libroRepo.save(libro);
+        public Libro updateLibro (Libro libro, int id) {
+            if(libro.getId()==id) {
+                return libroRepo.save(libro);
+            } else {
+                return null;
+            }
         }
 
         public void deleteLibroById(int id) {
             libroRepo.deleteLibroById(id);
         }
 
-        public List<Libro> findLibroByAutorId (String dni) {
-            return libroRepo.findLibroByAutorId(dni);
+        public List<Libro> findLibroByAutorDni(String dni) {
+            return libroRepo.findLibroByAutorDni(dni);
         }
 
         public List<Libro> findLibroByCategoriaId(int id) {

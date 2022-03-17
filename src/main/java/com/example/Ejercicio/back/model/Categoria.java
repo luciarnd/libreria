@@ -1,22 +1,22 @@
 package com.example.Ejercicio.back.model;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Categoria {
+public class Categoria implements Serializable {
+    @Getter
+    @Setter
     @Id
-    @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
     @NotNull
-    @Lob
+    private int id;
+    @Getter
+    @Setter
     private String descripcion;
-
 }
+

@@ -1,7 +1,9 @@
 package com.example.Ejercicio.back.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 import javax.persistence.*;
@@ -12,17 +14,27 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Libro implements Serializable {
+    @Getter
+    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
     private int id;
+    @Getter
+    @Setter
     private String titulo;
-    @NotNull
+    @Getter
+    @Setter
+    @Column(nullable = false)
     private int edicion;
+    @Getter
+    @Setter
     @ManyToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "autor_dni")
+    @JoinColumn(name = "dni")
     private Autor autor;
+    @Getter
+    @Setter
     @ManyToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "categoria_id")
+    @JoinColumn(name = "id_categoria")
     private Categoria categoria;
 }

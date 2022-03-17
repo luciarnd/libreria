@@ -25,20 +25,24 @@ public class AutorService {
         return autorRepo.save(autor);
     }
 
-    public Autor findAutorById(String dni) {
-        return autorRepo.findAutorById(dni).orElseThrow(() -> new UserNotFoundException("Autor by dni " + dni + " was not found"));
+    public Autor findAutorByDni(String dni) {
+        return autorRepo.findAutorByDni(dni).orElseThrow(() -> new UserNotFoundException("Autor by dni " + dni + " was not found"));
     }
 
     public List<Autor> findAllAutor () {
         return autorRepo.findAll();
     }
 
-    public Autor updateAutor (Autor autor) {
-        return autorRepo.save(autor);
+    public Autor updateAutor (Autor autor, String dni) {
+        if(autor.getDni().equals(dni)) {
+            return autorRepo.save(autor);
+        } else {
+            return null;
+        }
     }
 
-    public void deleteAutorById(String dni) {
-        autorRepo.deleteAutorById(dni);
+    public void deleteAutorByDni(String dni) {
+        autorRepo.deleteAutorByDni(dni);
     }
 
 }

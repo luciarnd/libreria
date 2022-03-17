@@ -37,14 +37,14 @@ public class CategoriaResource {
         return new ResponseEntity<>(newCategoria, HttpStatus.CREATED);
     }
 
-    @PutMapping("/editar")
-    public ResponseEntity<Categoria> updateCategoria (@RequestBody Categoria categoria) {
-        Categoria editCategoria = categoriaService.updateCategoria(categoria);
+    @PutMapping("/editar/{id}")
+    public ResponseEntity<Categoria> updateCategoria (@PathVariable("id") int id, @RequestBody Categoria categoria) {
+        Categoria editCategoria = categoriaService.updateCategoria(categoria, id);
         return new ResponseEntity<>(categoria, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteCategoriaById (@PathVariable("id") int id) {
+    public ResponseEntity<Categoria> deleteCategoriaById (@PathVariable("id") int id) {
         categoriaService.deleteCategoriaById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

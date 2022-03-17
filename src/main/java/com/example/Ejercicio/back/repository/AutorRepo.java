@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface AutorRepo extends JpaRepository<Autor, String> {
 
-    Optional<Autor> findAutorById(String dni);
+    Optional<Autor> findAutorByDni(String dni);
 
-    void deleteAutorById(String dni);
+    void deleteAutorByDni(String dni);
 }

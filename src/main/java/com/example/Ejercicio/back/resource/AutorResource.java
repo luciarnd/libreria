@@ -29,8 +29,8 @@ public class AutorResource {
     }
 
     @GetMapping("/getById/{dni}")
-    public ResponseEntity<Autor> getAutorById(@PathVariable("dni") String dni) {
-        Autor autor = autorService.findAutorById(dni);
+    public ResponseEntity<Autor> getAutorByDni(@PathVariable("dni") String dni) {
+        Autor autor = autorService.findAutorByDni(dni);
         return new ResponseEntity<>(autor, HttpStatus.OK);
     }
 
@@ -40,16 +40,16 @@ public class AutorResource {
         return new ResponseEntity<>(newAutor, HttpStatus.CREATED);
     }
 
-    @PutMapping("/editar")
-    public ResponseEntity<Autor> updateAutor(@RequestBody Autor autor) {
-        Autor editAutor = autorService.updateAutor(autor);
+    @PutMapping("/editar/{dni}")
+    public ResponseEntity<Autor> updateAutor(@PathVariable("dni") String dni, @RequestBody Autor autor) {
+        Autor editAutor = autorService.updateAutor(autor, dni);
         return new ResponseEntity<>(editAutor, HttpStatus.OK);
 
     }
 
     @DeleteMapping("/delete/{dni}")
-    public ResponseEntity<?> deleteAutor(@PathVariable("dni") String dni) {
-        autorService.deleteAutorById(dni);
+    public ResponseEntity<Autor> deleteAutor(@PathVariable("dni") String dni) {
+        autorService.deleteAutorByDni(dni);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

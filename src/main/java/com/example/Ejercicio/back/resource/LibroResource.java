@@ -32,8 +32,8 @@ public class LibroResource {
     }
 
     @GetMapping("/autor/{dni}")
-    public ResponseEntity<List<Libro>> getLibroByAutorId(@PathVariable ("dni") String dni) {
-        List<Libro> libros = libroService.findLibroByAutorId(dni);
+    public ResponseEntity<List<Libro>> getLibroByAutorDni(@PathVariable ("dni") String dni) {
+        List<Libro> libros = libroService.findLibroByAutorDni(dni);
         return new ResponseEntity<>(libros, HttpStatus.OK);
     }
 
@@ -49,14 +49,14 @@ public class LibroResource {
         return new ResponseEntity<>(newLibro, HttpStatus.CREATED);
     }
 
-    @PutMapping("/editar")
-    public ResponseEntity<Libro> updateLibro (@RequestBody Libro libro) {
-        Libro editLibro = libroService.updateLibro(libro);
+    @PutMapping("/editar/{id}")
+    public ResponseEntity<Libro> updateLibro (@PathVariable("id") int id, @RequestBody Libro libro) {
+        Libro editLibro = libroService.updateLibro(libro, id);
         return new ResponseEntity<>(libro, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteLibro (@PathVariable("id") int id) {
+    public ResponseEntity<Libro> deleteLibro (@PathVariable("id") int id) {
         libroService.deleteLibroById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
