@@ -30,11 +30,11 @@ public class Libro implements Serializable {
     @Getter
     @Setter
     @ManyToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "dni")
+    @JoinColumn(name = "IdAutor")
     private Autor autor;
     @Getter
     @Setter
     @ManyToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "id_categoria")
+    @JoinColumn(name = "IdCategoria")
     private Categoria categoria;
 }
