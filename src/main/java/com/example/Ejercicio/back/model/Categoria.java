@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @AllArgsConstructor
@@ -15,8 +16,9 @@ import javax.persistence.Lob;
 public class Categoria {
     @Id
     @Column(name = "id", nullable = false)
+    @NotNull
     private int id;
-    @NonNull
+    @NotNull
     @Lob
     private String descripcion;
 

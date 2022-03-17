@@ -7,22 +7,22 @@ import lombok.NonNull;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 public class Autor {
-
-
-    private int id;
     @Id
     @Column(nullable = false)
     private String dni;
-    @NonNull
+    @NotNull
     private String nombre;
-    @NonNull
+    @NotNull
     private String apellido1;
     private String apellido2;
     private String telefono;
+    @Email
     private String email;
 }

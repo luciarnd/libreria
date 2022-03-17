@@ -2,24 +2,27 @@ package com.example.Ejercicio.back.model;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Libro {
+public class Libro implements Serializable {
     @Id
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull
     private int id;
-    @NonNull
     private String titulo;
-    @NonNull
+    @NotNull
     private int edicion;
-    private int idAutor;
-    @NonNull
-    private int idCategoria;
+    @ManyToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "autor_dni")
+    private Autor autor;
+    @ManyToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "categoria_id")
+    private Categoria categoria;
 }
