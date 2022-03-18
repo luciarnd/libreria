@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.lang.Nullable;
 
 
 import javax.persistence.*;
@@ -22,19 +23,22 @@ public class Libro implements Serializable {
     private int id;
     @Getter
     @Setter
+    @NotNull
     private String titulo;
     @Getter
     @Setter
-    @Column(nullable = false)
+    @NotNull
     private int edicion;
     @Getter
     @Setter
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne
     @JoinColumn(name = "IdAutor")
+    @Nullable
     private Autor autor;
     @Getter
     @Setter
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @NotNull
+    @ManyToOne(cascade = {CascadeType.MERGE})
     @JoinColumn(name = "IdCategoria")
     private Categoria categoria;
 }

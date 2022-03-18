@@ -13,10 +13,12 @@ public class Categoria implements Serializable {
     @Getter
     @Setter
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
     private int id;
     @Getter
     @Setter
+    @NotNull
     private String descripcion;
 }
 
