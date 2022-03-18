@@ -35,10 +35,11 @@ public class LibroService {
         }
 
         public Libro updateLibro (Libro libro, int id) {
-            if(libro.getId()==id) {
+            if(id == findLibroById(id).getId()) {
+                libro.setId(id);
                 return libroRepo.save(libro);
             } else {
-                return null;
+                throw new IllegalArgumentException(error);
             }
         }
 

@@ -41,4 +41,5 @@ public class Libro implements Serializable {
     @ManyToOne(cascade = {CascadeType.MERGE})
     @JoinColumn(name = "IdCategoria")
     private Categoria categoria;
+
 }

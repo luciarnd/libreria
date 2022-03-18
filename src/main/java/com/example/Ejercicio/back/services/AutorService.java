@@ -1,6 +1,5 @@
 package com.example.Ejercicio.back.services;
 
-import com.example.Ejercicio.back.exception.UserNotFoundException;
 import com.example.Ejercicio.back.model.Autor;
 import com.example.Ejercicio.back.repository.AutorRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,7 @@ public class AutorService {
     }
 
     public Autor findAutorByDni(String dni) {
-        return autorRepo.findAutorByDni(dni).orElseThrow(() -> new UserNotFoundException("Autor by dni " + dni + " was not found"));
+        return autorRepo.findAutorByDni(dni).orElseThrow(() -> new IllegalArgumentException("Autor by dni " + dni + " was not found"));
     }
 
     public List<Autor> findAllAutor () {
@@ -34,10 +33,11 @@ public class AutorService {
     }
 
     public Autor updateAutor (Autor autor, String dni) {
-        if(autor.getDni().equals(dni)) {
+        if(dni == findAutorByDni(dni).getDni()) {
+            autor.setDni(dni);
             return autorRepo.save(autor);
         } else {
-            return null;
+            throw new IllegalArgumentException("Autor by dni " + dni + " was not found");
         }
     }
 

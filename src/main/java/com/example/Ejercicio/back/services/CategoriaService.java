@@ -34,10 +34,11 @@ public class CategoriaService {
     }
 
     public Categoria updateCategoria (Categoria categoria, int id) {
-        if(categoria.getId() == id) {
+        if(id == findCategoriaById(id).getId()) {
+            categoria.setId(id);
             return categoriaRepo.save(categoria);
         } else {
-            return null;
+            throw new IllegalArgumentException(error);
         }
     }
 
