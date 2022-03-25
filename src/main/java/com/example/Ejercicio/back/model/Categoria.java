@@ -1,8 +1,14 @@
 package com.example.Ejercicio.back.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
@@ -10,15 +16,15 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Categoria implements Serializable {
+
     @Getter
     @Setter
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Getter
     @Setter
-    @NotNull
     private String descripcion;
 }
-

@@ -1,56 +1,54 @@
 package com.example.Ejercicio.back.resource;
 
-
-import com.example.Ejercicio.back.services.AutorService;
 import com.example.Ejercicio.back.model.Autor;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.Ejercicio.back.services.AutorServices;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-
+@Component
 @RestController
 @RequestMapping("/autor")
 public class AutorResource {
+    private final AutorServices autorServices;
 
-    private final AutorService autorService;
-
-    @Autowired
-    public AutorResource(AutorService autorService) {
-        this.autorService = autorService;
+    public AutorResource(AutorServices autorServices) {
+        this.autorServices = autorServices;
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Autor>> getAllAutor () {
-        List<Autor> autors = autorService.findAllAutor();
+    public ResponseEntity<List<Autor>> getAllAutors(){
+        List<Autor> autors = autorServices.findAllAutors();
+        for (int i = 0; i<autors.size(); i++) {
+            if (autors.get(i).getEmail() == null) {
+                autors.get(i).setEmail("Desconocido");
+            }
+            if (autors.get(i).getTelefono() == null) {
+                autors.get(i).setTelefono("Desconocido");
+            }
+        }
         return new ResponseEntity<>(autors, HttpStatus.OK);
     }
-
     @GetMapping("/getById/{dni}")
-    public ResponseEntity<Autor> getAutorByDni(@PathVariable("dni") String dni) {
-        Autor autor = autorService.findAutorByDni(dni);
+    public ResponseEntity<Autor> getAutorsById(@PathVariable("dni") String dni){
+        Autor autor = autorServices.findAutorByDni(dni);
         return new ResponseEntity<>(autor, HttpStatus.OK);
     }
-
     @PostMapping("/add")
-    public ResponseEntity<Autor> addAutor(@RequestBody Autor autor) {
-        Autor newAutor = autorService.addAutor(autor);
+    public ResponseEntity<Autor> addAutor(@RequestBody Autor autor){
+        Autor newAutor = autorServices.addAutor(autor);
         return new ResponseEntity<>(newAutor, HttpStatus.CREATED);
     }
-
-    @PutMapping("/editar/{dni}")
-    public ResponseEntity<Autor> updateAutor(@PathVariable("dni") String dni, @RequestBody Autor autor) {
-        Autor editAutor = autorService.updateAutor(autor, dni);
-        return new ResponseEntity<>(editAutor, HttpStatus.OK);
-
+    @PutMapping("/update")
+    public ResponseEntity<Autor> updateAutor(@RequestBody Autor autor){
+        Autor updateAutor = autorServices.updateAutor(autor);
+        return new ResponseEntity<>(updateAutor, HttpStatus.OK);
     }
-
     @DeleteMapping("/delete/{dni}")
-    public ResponseEntity<Autor> deleteAutor(@PathVariable("dni") String dni) {
-        autorService.deleteAutorByDni(dni);
+    public ResponseEntity<Autor> deleteAutor(@PathVariable("dni") String dni){
+        autorServices.deleteAutor(dni);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
 }

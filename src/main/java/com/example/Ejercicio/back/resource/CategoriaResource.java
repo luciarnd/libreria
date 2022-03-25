@@ -1,8 +1,7 @@
 package com.example.Ejercicio.back.resource;
 
 import com.example.Ejercicio.back.model.Categoria;
-import com.example.Ejercicio.back.services.CategoriaService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.Ejercicio.back.services.CategoriaServices;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,41 +10,36 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/categoria")
-public class CategoriaResource {
-    private final CategoriaService categoriaService;
+public class CategoriaResource{
+    private final CategoriaServices categoriaServices;
 
-    @Autowired
-    public CategoriaResource (CategoriaService categoriaService) {
-        this.categoriaService=categoriaService;
+    public CategoriaResource(CategoriaServices categoriaServices) {
+        this.categoriaServices = categoriaServices;
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Categoria>> getAllCategorias() {
-        List<Categoria> categorias = categoriaService.findAllCategoria();
+    public ResponseEntity<List<Categoria>> getAllCategorias(){
+        List<Categoria> categorias = categoriaServices.findAllCategorias();
         return new ResponseEntity<>(categorias, HttpStatus.OK);
     }
-
     @GetMapping("/getById/{id}")
-    public ResponseEntity<Categoria> getCategoriaById(@PathVariable("id") int id) {
-        Categoria categoria = categoriaService.findCategoriaById(id);
+    public ResponseEntity<Categoria> getCategoriasById(@PathVariable("id") Long id){
+        Categoria categoria = categoriaServices.findCategoriaById(id);
         return new ResponseEntity<>(categoria, HttpStatus.OK);
     }
-
     @PostMapping("/add")
-    public ResponseEntity<Categoria> addCategoria (@RequestBody Categoria categoria) {
-        Categoria newCategoria = categoriaService.addCategoria(categoria);
+    public ResponseEntity<Categoria> addCategoria(@RequestBody Categoria categoria){
+        Categoria newCategoria = categoriaServices.addCategoria(categoria);
         return new ResponseEntity<>(newCategoria, HttpStatus.CREATED);
     }
-
-    @PutMapping("/editar/{id}")
-    public ResponseEntity<Categoria> updateCategoria (@PathVariable("id") int id, @RequestBody Categoria categoria) {
-        Categoria editCategoria = categoriaService.updateCategoria(categoria, id);
-        return new ResponseEntity<>(categoria, HttpStatus.OK);
+    @PutMapping("/update")
+    public ResponseEntity<Categoria> updateCategoria(@RequestBody Categoria categoria){
+        Categoria updateCategoria = categoriaServices.updateCategoria(categoria);
+        return new ResponseEntity<>(updateCategoria, HttpStatus.OK);
     }
-
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Categoria> deleteCategoriaById (@PathVariable("id") int id) {
-        categoriaService.deleteCategoriaById(id);
+    public ResponseEntity<Categoria> deleteCategoria(@PathVariable("id") Long id){
+        categoriaServices.deleteCategoria(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -5,8 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface CategoriaRepo extends JpaRepository<Categoria, Integer> {
-    Optional<Categoria> findCategoriaById(int id);
+public interface CategoriaRepo extends JpaRepository<Categoria, Long> {
+    Optional<Categoria> findCategoriaById(Long id);
 
-    void deleteCategoriaById(int id);
+    void deleteCategoriaById(Long id);
 }
