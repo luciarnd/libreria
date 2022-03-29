@@ -30,8 +30,10 @@ public class CategoriaResource{
     public ResponseEntity<List<Categoria>> getAllCategorias(){
         List<Categoria> categorias = categoriaServices.findAllCategorias();
         List<Categoria> categoriasToList = new ArrayList<>();
-        for (int i=1; i < categorias.size(); i++) {
-            categoriasToList.add(categorias.get(i));
+        for (Categoria categoria : categorias) {
+            if (categoria.getId() != 1) {
+                categoriasToList.add(categoria);
+            }
         }
 
         return new ResponseEntity<>(categoriasToList, HttpStatus.OK);
