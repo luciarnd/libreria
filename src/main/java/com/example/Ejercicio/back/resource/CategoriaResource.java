@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -28,7 +29,12 @@ public class CategoriaResource{
     @GetMapping("/all")
     public ResponseEntity<List<Categoria>> getAllCategorias(){
         List<Categoria> categorias = categoriaServices.findAllCategorias();
-        return new ResponseEntity<>(categorias, HttpStatus.OK);
+        List<Categoria> categoriasToList = new ArrayList<>();
+        for (int i=1; i < categorias.size(); i++) {
+            categoriasToList.add(categorias.get(i));
+        }
+
+        return new ResponseEntity<>(categoriasToList, HttpStatus.OK);
     }
     @GetMapping("/getById/{id}")
     public ResponseEntity<Categoria> getCategoriasById(@PathVariable("id") Long id){

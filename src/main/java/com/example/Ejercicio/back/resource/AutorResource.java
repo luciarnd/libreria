@@ -1,7 +1,10 @@
 package com.example.Ejercicio.back.resource;
 
+import com.example.Ejercicio.back.dto.LibroDTO;
 import com.example.Ejercicio.back.model.Autor;
+import com.example.Ejercicio.back.model.Libro;
 import com.example.Ejercicio.back.services.AutorServices;
+import com.example.Ejercicio.back.services.LibroServices;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -13,9 +16,13 @@ import java.util.List;
 @RequestMapping("/autor")
 public class AutorResource {
     private final AutorServices autorServices;
+    private final LibroServices libroServices;
+    private final LibroResource libroResource;
 
-    public AutorResource(AutorServices autorServices) {
+    public AutorResource(AutorServices autorServices, LibroServices libroServices, LibroResource libroResource) {
         this.autorServices = autorServices;
+        this.libroServices=libroServices;
+        this.libroResource=libroResource;
     }
 
     @GetMapping("/all")
