@@ -56,6 +56,7 @@ public class LibroResource {
         Libro libro = libroServices.findLibroById(id);
         return new ResponseEntity<>(libro, HttpStatus.OK);
     }
+
     @PostMapping("/add")
     public ResponseEntity<Libro> addLibro(@RequestBody LibroDTO libro){
         Libro libroStr = new Libro();
@@ -80,6 +81,7 @@ public class LibroResource {
         Libro newLibro = libroServices.addLibro(libroStr);
         return new ResponseEntity<>(newLibro, HttpStatus.CREATED);
     }
+
     @PutMapping("/update")
     public ResponseEntity<Libro> updateLibro(@RequestBody LibroDTO libro){
         Libro libroStr = new Libro();

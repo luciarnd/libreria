@@ -55,6 +55,18 @@ public class AutorResource {
     }
     @DeleteMapping("/delete/{dni}")
     public ResponseEntity<Autor> deleteAutor(@PathVariable("dni") String dni){
+        List<Libro> listaLibrosAutor = libroServices.findLibroByAutorId(dni);
+        if(!listaLibrosAutor.isEmpty()) {
+            for (int i = 0; i < listaLibrosAutor.size(); i++) {
+                LibroDTO dto = new LibroDTO();
+                dto.setId(listaLibrosAutor.get(i).getId());
+                dto.setTitulo(listaLibrosAutor.get(i).getTitulo());
+                dto.setEdicion(listaLibrosAutor.get(i).getEdicion());
+                dto.setAutor("Desconocido");
+                dto.setCategoria(listaLibrosAutor.get(i).getCategoria().getDescripcion());
+                libroResource.updateLibro(dto);
+            }
+        }
         autorServices.deleteAutor(dni);
         return new ResponseEntity<>(HttpStatus.OK);
     }

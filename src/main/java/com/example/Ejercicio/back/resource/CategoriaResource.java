@@ -27,7 +27,7 @@ public class CategoriaResource{
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Categoria>> getAllCategorias(){
+    public ResponseEntity<List<Categoria>> getAllCategoriasToList(){
         List<Categoria> categorias = categoriaServices.findAllCategorias();
         List<Categoria> categoriasToList = new ArrayList<>();
         for (Categoria categoria : categorias) {
@@ -35,9 +35,9 @@ public class CategoriaResource{
                 categoriasToList.add(categoria);
             }
         }
-
         return new ResponseEntity<>(categoriasToList, HttpStatus.OK);
     }
+
     @GetMapping("/getById/{id}")
     public ResponseEntity<Categoria> getCategoriasById(@PathVariable("id") Long id){
         Categoria categoria = categoriaServices.findCategoriaById(id);
