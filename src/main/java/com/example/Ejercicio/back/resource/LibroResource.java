@@ -7,12 +7,16 @@ import com.example.Ejercicio.back.services.AutorServices;
 import com.example.Ejercicio.back.services.CategoriaServices;
 import com.example.Ejercicio.back.services.LibroServices;
 
+import org.apache.commons.compress.utils.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -118,6 +122,20 @@ public class LibroResource {
     public ResponseEntity<List<Libro>> getLibrosMismaCategoria(@PathVariable("id") Long id){
         List<Libro> libros = libroServices.findLibroByCategoriaId(id);
         return new ResponseEntity<>(libros, HttpStatus.OK);
+    }
+
+    private static final String FILENAME = "libros.xls";
+    @GetMapping(value="/export", produces= MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public ResponseEntity<?> descargaExcel(HttpServletResponse response) throws Exception {
+
+        List<Libro> list = libroServices.findAllLibros();
+
+        ByteArrayInputStream in = libroServices.libroExcel(list);
+        IOUtils.copy(in, response.getOutputStream());
+        response.setContentType("application/x-download");
+        response.setHeader("Content-Disposition", "attachment; filename=" + java.net.URLEncoder.encode(FILENAME, "UTF-8"));
+        response.flushBuffer();
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

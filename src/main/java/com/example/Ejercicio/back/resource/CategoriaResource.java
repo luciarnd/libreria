@@ -1,15 +1,20 @@
 package com.example.Ejercicio.back.resource;
 
 import com.example.Ejercicio.back.dto.LibroDTO;
+import com.example.Ejercicio.back.model.Autor;
 import com.example.Ejercicio.back.model.Categoria;
 import com.example.Ejercicio.back.model.Libro;
 import com.example.Ejercicio.back.services.CategoriaServices;
 import com.example.Ejercicio.back.services.LibroServices;
+import org.apache.commons.compress.utils.IOUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,6 +78,20 @@ public class CategoriaResource{
             }
         }
         categoriaServices.deleteCategoria(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    private static final String FILENAME = "categoria.xls";
+    @GetMapping(value="/export", produces= MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public ResponseEntity<?> descargaExcel(HttpServletResponse response) throws Exception {
+
+        List<Categoria> list = categoriaServices.findAllCategorias();
+
+        ByteArrayInputStream in = categoriaServices.categoriaExcel(list);
+        IOUtils.copy(in, response.getOutputStream());
+        response.setContentType("application/x-download");
+        response.setHeader("Content-Disposition", "attachment; filename=" + java.net.URLEncoder.encode(FILENAME, "UTF-8"));
+        response.flushBuffer();
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

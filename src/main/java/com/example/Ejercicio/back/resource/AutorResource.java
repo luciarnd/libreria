@@ -5,12 +5,17 @@ import com.example.Ejercicio.back.model.Autor;
 import com.example.Ejercicio.back.model.Libro;
 import com.example.Ejercicio.back.services.AutorServices;
 import com.example.Ejercicio.back.services.LibroServices;
+import org.apache.commons.compress.utils.IOUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayInputStream;
 import java.util.List;
+
 @Component
 @RestController
 @RequestMapping("/autor")
@@ -53,6 +58,7 @@ public class AutorResource {
         Autor updateAutor = autorServices.updateAutor(autor);
         return new ResponseEntity<>(updateAutor, HttpStatus.OK);
     }
+
     @DeleteMapping("/delete/{dni}")
     public ResponseEntity<Autor> deleteAutor(@PathVariable("dni") String dni){
         List<Libro> listaLibrosAutor = libroServices.findLibroByAutorId(dni);
@@ -70,4 +76,19 @@ public class AutorResource {
         autorServices.deleteAutor(dni);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    private static final String FILENAME = "autores.xls";
+    @GetMapping(value="/export", produces= MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public ResponseEntity<?> descargaExcel(HttpServletResponse response) throws Exception {
+
+        List<Autor> list = autorServices.findAllAutors();
+
+        ByteArrayInputStream in = autorServices.autorExcel(list);
+        IOUtils.copy(in, response.getOutputStream());
+        response.setContentType("application/x-download");
+        response.setHeader("Content-Disposition", "attachment; filename=" + java.net.URLEncoder.encode(FILENAME, "UTF-8"));
+        response.flushBuffer();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

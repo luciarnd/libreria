@@ -1,24 +1,33 @@
-package com.example.Ejercicio.back.services;
+package com.example.Ejercicio.back.Job;
 
-import com.example.Ejercicio.back.model.Mail;
-import lombok.AllArgsConstructor;
+import com.example.Ejercicio.back.services.MailServices;
 import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Service;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
+import org.quartz.Job;
+import org.quartz.JobExecutionContext;
+
+import org.quartz.JobExecutionException;
+import org.springframework.mail.MailException;
+import org.springframework.stereotype.Component;
+
+import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
-@Service
-@AllArgsConstructor
-public class MailServices {
+@Component
+public class EmailJob implements Job {
 
-    public void sendMail(Mail mail) {
-        String to = mail.getDestinatario();
+    @Override
+    public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
+        try {
+            sendAutoMail();
+        } catch (MailException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendAutoMail() {
+        String to = "daw02.2022@gmail.com";
         String from = "librerialibr@gmail.com";
 
         String host = "smtp.gmail.com";
@@ -36,20 +45,12 @@ public class MailServices {
             }
         });
 
-
         try {
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(from));
-            if(to.contains(",")) {
-                String recipients[] = to.split(", ");
-                for (int i =0; i < recipients.length; i++) {
-                    message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipients[i]));
-                }
-            } else {
-                message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-            }
-            message.setSubject(mail.getAsunto());
-            message.setText(mail.getMensaje());
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+            message.setSubject("Correo Automático");
+            message.setText("Hola");
 
             Transport.send(message);
         } catch (MessagingException mex) {
@@ -57,5 +58,4 @@ public class MailServices {
         }
 
     }
-
 }
